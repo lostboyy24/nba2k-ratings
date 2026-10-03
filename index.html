@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBA 2K27 Player Ratings — Every Rostered Player (Unofficial Fan Site)</title>
+<meta name="description" content="Searchable, sortable NBA 2K27 player ratings for every rostered NBA player: overall, position, team and key attributes like 3PT, dunk, defense and playmaking.">
+<meta name="theme-color" content="#0b0d14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23f59e0b'/%3E%3Cpath d='M4 50h92M50 4v92M18 18c20 20 20 44 0 64M82 18c-20 20-20 44 0 64' stroke='%230b0d14' stroke-width='4' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="ball" aria-hidden="true"></span>2K27 Ratings</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#top-players">Top Players</a>
+      <a href="#fun-stats">Stats</a>
+      <a href="#players">All Players</a>
+      <a href="#teams">Teams</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Unofficial fan site · <span id="edition">NBA 2K27</span></p>
+    <h1>Every NBA 2K27 <span class="grad">player rating</span>, in one place.</h1>
+    <p class="lead">Search, sort and filter overall ratings, positions, teams and key attributes for <strong id="hero-count">…</strong> rostered NBA players.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#players">Browse all players</a>
+      <a class="btn" href="#top-players">See the top 10</a>
+    </div>
+    <ul class="hero-stats" id="hero-stats" aria-label="Quick facts"></ul>
+    <p class="updated" id="updated">Loading ratings…</p>
+  </div>
+</section>
+
+<noscript><div class="wrap"><p class="notice">This site needs JavaScript to load the ratings table.</p></div></noscript>
+<div class="wrap"><p id="load-error" class="notice error" hidden></p></div>
+
+<section id="top-players" class="wrap section">
+  <div class="sec-head"><h2>Top-rated players</h2><p>The highest overalls in NBA 2K27 right now.</p></div>
+  <div class="top-grid" id="top-grid"></div>
+</section>
+
+<section id="fun-stats" class="wrap section">
+  <div class="sec-head"><h2>Fun stats</h2><p>Quick takeaways from the full roster.</p></div>
+  <div class="tiers" id="tier-bar" aria-label="Players by rating tier"></div>
+  <div class="grid-2">
+    <div class="card"><h3>Average overall by position</h3><div id="pos-avg"></div></div>
+    <div class="card"><h3>Highest-rated player on each team</h3><div class="team-best" id="team-best"></div></div>
+  </div>
+  <div class="leaders" id="leaders"></div>
+</section>
+
+<section id="players" class="wrap section">
+  <div class="sec-head"><h2>All players</h2><p>Click a column header to sort. Click a row for the full attribute breakdown.</p></div>
+  <div class="controls">
+    <label class="field grow"><span>Search</span><input id="q" type="search" placeholder="Search player or team…" autocomplete="off"></label>
+    <label class="field"><span>Team</span><select id="f-team"><option value="">All teams</option></select></label>
+    <label class="field"><span>Position</span><select id="f-pos"><option value="">All positions</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></label>
+    <label class="field"><span>Tier</span><select id="f-tier"><option value="">All tiers</option></select></label>
+    <label class="field"><span>Sort by</span><select id="sort-sel">
+      <option value="ovr:desc">Overall (high → low)</option><option value="ovr:asc">Overall (low → high)</option>
+      <option value="name:asc">Name (A → Z)</option><option value="name:desc">Name (Z → A)</option>
+      <option value="team:asc">Team (A → Z)</option><option value="pos:asc">Position</option>
+      <option value="three:desc">3PT (high → low)</option><option value="dunk:desc">Dunk (high → low)</option><option value="def:desc">Defense (high → low)</option>
+    </select></label>
+    <button class="btn small" id="reset" type="button">Reset</button>
+  </div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="table-wrap">
+    <table id="tbl">
+      <thead><tr>
+        <th data-k="rank" class="num">#</th>
+        <th data-k="name">Player</th>
+        <th data-k="team">Team</th>
+        <th data-k="pos">Pos</th>
+        <th data-k="ovr" class="num">OVR</th>
+        <th data-k="three" class="num hide-sm">3PT</th>
+        <th data-k="dunk" class="num hide-sm">Dunk</th>
+        <th data-k="def" class="num hide-sm">DEF</th>
+        <th data-k="ply" class="num hide-md">PLY</th>
+        <th data-k="ath" class="num hide-md">ATH</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="more"><button class="btn" id="more" type="button" hidden>Show more</button></div>
+</section>
+
+<section id="teams" class="wrap section">
+  <div class="sec-head"><h2>Team view</h2><p>Pick a team to see its full roster, ranked.</p></div>
+  <div class="team-cards" id="team-cards"></div>
+  <div class="card team-detail" id="team-detail" hidden>
+    <div class="td-head"><h3 id="td-name"></h3><span id="td-meta" class="muted"></span></div>
+    <div class="roster" id="td-roster"></div>
+  </div>
+</section>
+
+<section id="about" class="wrap section">
+  <div class="card about">
+    <h2>About this data</h2>
+    <ul>
+      <li><strong>Edition:</strong> <span id="ab-edition"></span></li>
+      <li><strong>Source:</strong> <span id="ab-source"></span></li>
+      <li><strong>Last updated:</strong> <span id="ab-updated"></span></li>
+      <li><strong>Coverage:</strong> <span id="ab-coverage"></span></li>
+      <li><strong>Attributes:</strong> 3PT = Three-Point Shot, Dunk = the higher of Driving Dunk and Standing Dunk, DEF = overall Defense category, PLY = Playmaking category, ATH = Physical (athleticism) category.</li>
+    </ul>
+    <p>Ratings change with roster moves and in-season updates, so these numbers can be out of date. This is an <strong>unofficial fan site</strong> and is <strong>not affiliated with, endorsed by, or sponsored by 2K, Take-Two Interactive, or the NBA</strong>. NBA 2K is a trademark of Take-Two Interactive. Team and player names are used for identification only.</p>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap">Unofficial fan project · Data compiled from public sources · Not affiliated with 2K or the NBA.</div></footer>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="m-name">
+  <div class="modal-box">
+    <button class="x" id="m-close" aria-label="Close">×</button>
+    <div class="m-head"><span class="ovr big" id="m-ovr"></span><div><h3 id="m-name"></h3><p id="m-sub" class="muted"></p></div></div>
+    <div id="m-attrs" class="m-attrs"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
